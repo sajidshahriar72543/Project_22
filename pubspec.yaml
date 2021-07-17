@@ -60,6 +60,7 @@ flutter:
      - images/redmarker.png
      - images/taxi.png
      - images/user_icon.png
+     - images/taxi-logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -88,6 +89,9 @@ flutter:
     - family: Poppins-Regular
       fonts:
         - asset: fonts/Poppins-Regular.ttf
+    - family: Rounded-arial-bold
+      fonts:
+        - asset: fonts/roundedarial-bold.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
