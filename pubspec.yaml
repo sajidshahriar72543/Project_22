@@ -82,6 +82,12 @@ flutter:
     - family: Brand Bold
       fonts:
         - asset: fonts/bolt-semibold.ttf
+    - family: OpenSans-Regular
+      fonts:
+        - asset: fonts/OpenSans-Regular.ttf
+    - family: Poppins-Regular
+      fonts:
+        - asset: fonts/Poppins-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
