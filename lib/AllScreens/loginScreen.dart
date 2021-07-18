@@ -106,15 +106,12 @@ class LoginScreen extends StatelessWidget {
                           borderRadius: new BorderRadius.circular(24),
                         ),
                         onPressed: () {
-                          if (!emailTextEditingController.text
-                              .contains("@")) {
+                          if (!emailTextEditingController.text.contains("@")) {
                             displayToastMessage("Invalid Email", context);
-                          }
-                          else if (passwordTextEditingController.text.isEmpty) {
-                            displayToastMessage(
-                                "Pass is empty", context);
-                          }
-                          else{
+                          } else if (passwordTextEditingController
+                              .text.isEmpty) {
+                            displayToastMessage("Pass is empty", context);
+                          } else {
                             loginAndAuthenticateUser(context);
                           }
                         },
@@ -147,19 +144,16 @@ class LoginScreen extends StatelessWidget {
         .user;
 
     if (firebaseUser != null) {
-      usersRef
-          .child(firebaseUser.uid)
-          .once()
-          .then((DataSnapshot snap) {
-                if (snap.value != null) {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, MainScreen.idScreen, (route) => false);
-                  displayToastMessage("You are logged in.", context);
-                } else {
-                  _firebaseAuth.signOut();
-                  displayToastMessage("No record exists. Create new account", context);
-                }
-              });
+      usersRef.child(firebaseUser.uid).once().then((DataSnapshot snap) {
+        if (snap.value != null) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, MainScreen.idScreen, (route) => false);
+          displayToastMessage("You are logged in.", context);
+        } else {
+          _firebaseAuth.signOut();
+          displayToastMessage("No record exists. Create new account", context);
+        }
+      });
     } else {
       displayToastMessage("Cant be signed in", context);
     }

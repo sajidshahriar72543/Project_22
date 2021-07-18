@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "754541261130",
-    "project_id": "uber-clone-72543",
-    "storage_bucket": "uber-clone-72543.appspot.com"
+    "project_number": "291632202409",
+    "project_id": "uber-new-72543",
+    "storage_bucket": "uber-new-72543.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:754541261130:android:f34e9af873d7562e0f11b3",
+        "mobilesdk_app_id": "1:291632202409:android:7dad802be6bb8c5c789fb8",
         "android_client_info": {
           "package_name": "com.sajid.rider"
         }
       },
       "oauth_client": [
         {
-          "client_id": "754541261130-kjfun584e1q0g9o5pa54hal1s9581kdu.apps.googleusercontent.com",
+          "client_id": "291632202409-sjmlikok0sk3dsc7m7af4m3o4o8qvdru.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCuifFrb1ZbCB4z6lZ3PD2rKBgtVyFuncE"
+          "current_key": "AIzaSyCB082vhSRG_clFvcLm7vUV-Hx-TJ3ySjU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "754541261130-kjfun584e1q0g9o5pa54hal1s9581kdu.apps.googleusercontent.com",
+              "client_id": "291632202409-sjmlikok0sk3dsc7m7af4m3o4o8qvdru.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
