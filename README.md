@@ -1,6 +1,12 @@
-# uber_clone
+# Ride Sharing app (Origin : UBER)
 
-A new Flutter project.
+A new Flutter project to create an app similar to UBER.
+Here basic material ui is being used and for storing data Firebase is implemented.
+
+<h2>Developed by :</h2>
+<strong>MD. SHAHRIAR SAJID</strong><br>
+<strong>BSc. Student of the dept. of ECE</strong><br>
+<strong>RUET</strong>
 
 ## Getting Started
 
