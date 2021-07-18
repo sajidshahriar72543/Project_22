@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:uber_clone/AllScreens/loginScreen.dart';
 import 'package:uber_clone/AllScreens/mainscreen.dart';
-import 'package:uber_clone/AllScreens/registrationscreen.dart';
+import 'package:uber_clone/AllScreens/registrationScreen.dart';
+//import 'package:uber_clone/AllScreens/registrationscreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,7 +18,12 @@ class MyApp extends StatelessWidget {
         fontFamily: "Poppins-Regular",
         primarySwatch: Colors.blue,
       ),
-      home: RegistrationScreen(),
+      initialRoute: LoginScreen.idScreen,
+      routes: {
+        RegistrationScreen.idScreen: (context)=> RegistrationScreen(),
+        LoginScreen.idScreen: (context)=> LoginScreen(),
+        MainScreen.idScreen: (context)=> MainScreen(),
+      },
       debugShowCheckedModeBanner: false,
     );
   }

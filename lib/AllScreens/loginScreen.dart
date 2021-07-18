@@ -1,8 +1,10 @@
 //import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:uber_clone/AllScreens/registrationScreen.dart';
 
 class LoginScreen extends StatelessWidget {
+  static const String idScreen = "login";
   //const LoginScreen({ Key? key }) : super(key: key);
 
   @override
@@ -104,7 +106,8 @@ class LoginScreen extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    print("register button clicked");
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, RegistrationScreen.idScreen, (route) => false);
                   },
                   child: Text("Don't have an account? Click here to Register"),
                 ),
