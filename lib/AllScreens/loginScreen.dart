@@ -15,12 +15,12 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(
-                  height: 45,
+                  height: 270,
                 ),
                 Image(
-                  image: AssetImage("images/logo.png"),
-                  width: 500.0,
-                  height: 300.0,
+                  image: AssetImage("images/taxi-logo.png"),
+                  width: 100.0,
+                  height: 100.0,
                   alignment: Alignment.center,
                 ),
                 SizedBox(
