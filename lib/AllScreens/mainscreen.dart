@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
-
   static const String idScreen = "mainScreen";
   //const MainScreen({ Key? key }) : super(key: key);
 
@@ -14,7 +13,12 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Main Screen"),
+        centerTitle: true,
+        title: Text(
+          "Main Screen",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontFamily: 'OpenSans-Regular'),
+        ),
       ),
     );
   }
