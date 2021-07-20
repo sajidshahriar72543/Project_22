@@ -8,13 +8,13 @@ class ProgressDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Colors.blue,
+      //backgroundColor: Colors.blue[300],
       child: Container(
-        margin: EdgeInsets.all(15.0),
+        margin: EdgeInsets.all(5.0),
         width: double.infinity,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(6.0),
+          //borderRadius: BorderRadius.circular(1.0),
         ),
         child: Padding(
           padding: EdgeInsets.all(15.0),

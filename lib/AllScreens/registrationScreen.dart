@@ -21,7 +21,13 @@ class RegistrationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        body: SingleChildScrollView(
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("images/bg.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
           child: Padding(
             padding: EdgeInsets.all(8.0),
             child: Column(
@@ -30,7 +36,7 @@ class RegistrationScreen extends StatelessWidget {
                   height: 190,
                 ),
                 Image(
-                  image: AssetImage("images/taxi-logo.png"),
+                  image: AssetImage("images/a.png"),
                   width: 100.0,
                   height: 100.0,
                   alignment: Alignment.center,
@@ -185,7 +191,6 @@ class RegistrationScreen extends StatelessWidget {
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   void registerNewUser(BuildContext context) async {
-
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -200,7 +205,7 @@ class RegistrationScreen extends StatelessWidget {
                 email: emailTextEditingController.text,
                 password: passwordTextEditingController.text)
             .catchError((errMsg) {
-              Navigator.pop(context);
+      Navigator.pop(context);
       displayToastMessage("Error : " + errMsg.toString(), context);
     }))
         .user;

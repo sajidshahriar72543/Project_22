@@ -18,16 +18,22 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        body: SingleChildScrollView(
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("images/bg.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
           child: Padding(
             padding: EdgeInsets.all(8.0),
             child: Column(
               children: [
                 SizedBox(
-                  height: 270,
+                  height: 220,
                 ),
                 Image(
-                  image: AssetImage("images/taxi-logo.png"),
+                  image: AssetImage("images/a.png"),
                   width: 100.0,
                   height: 100.0,
                   alignment: Alignment.center,
