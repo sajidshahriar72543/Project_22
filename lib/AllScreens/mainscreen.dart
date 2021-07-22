@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uber_clone/AllWidgets/Divider.dart';
+import 'package:geolocator/geolocator.dart';
 
 class MainScreen extends StatefulWidget {
   static const String idScreen = "mainScreen";
@@ -17,6 +19,24 @@ class _MainScreenState extends State<MainScreen> {
   GoogleMapController newgoogleMapController;
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  //LocationPermission permission = await Geolocator.requestPermission();
+  Position currentPosition;
+  var geolocator = Geolocator();
+  double bottomPaddingOfMap = 0;
+
+  void locatePosition() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    currentPosition = position;
+
+    LatLng latLngPosition = LatLng(position.latitude, position.longitude);
+
+    CameraPosition cameraPosition =
+        new CameraPosition(target: latLngPosition, zoom: 14);
+    newgoogleMapController
+        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+  }
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
@@ -123,12 +143,22 @@ class _MainScreenState extends State<MainScreen> {
       body: Stack(
         children: [
           GoogleMap(
+            padding: EdgeInsets.only(bottom: bottomPaddingOfMap),
             mapType: MapType.normal,
             myLocationButtonEnabled: true,
             initialCameraPosition: _kGooglePlex,
+            myLocationEnabled: true,
+            zoomGesturesEnabled: true,
+            zoomControlsEnabled: true,
             onMapCreated: (GoogleMapController controller) {
               _controllerGoogleMap.complete(controller);
               newgoogleMapController = controller;
+
+              setState(() {
+                bottomPaddingOfMap = 350.0;
+              });
+
+              locatePosition();
             },
           ),
 
@@ -175,7 +205,7 @@ class _MainScreenState extends State<MainScreen> {
             right: 0.0,
             bottom: 0.0,
             child: Container(
-              height: 320.0,
+              height: 300.0,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
