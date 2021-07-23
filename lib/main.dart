@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:uber_clone/AllScreens/loginScreen.dart';
 import 'package:uber_clone/AllScreens/mainscreen.dart';
 import 'package:uber_clone/AllScreens/registrationScreen.dart';
+import 'package:uber_clone/AllScreens/reset.dart';
 import 'package:uber_clone/DataHandler/appData.dart';
 //import 'package:uber_clone/AllScreens/registrationscreen.dart';
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
           fontFamily: "Poppins-Regular",
           primarySwatch: Colors.blue,
         ),
-        initialRoute: MainScreen.idScreen,
+        initialRoute: ResetScreen.idScreen,
         routes: {
           RegistrationScreen.idScreen: (context) => RegistrationScreen(),
           LoginScreen.idScreen: (context) => LoginScreen(),

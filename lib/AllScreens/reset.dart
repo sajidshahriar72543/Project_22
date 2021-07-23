@@ -7,13 +7,14 @@ import 'package:uber_clone/AllScreens/mainscreen.dart';
 import 'package:uber_clone/AllScreens/registrationScreen.dart';
 import 'package:uber_clone/AllWidgets/progressDialog.dart';
 import 'package:uber_clone/main.dart';
-import 'package:uber_clone/AllScreens/reset.dart';
 
-class LoginScreen extends StatelessWidget {
+class ResetScreen extends StatelessWidget {
   static const String idScreen = "login";
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
   //const LoginScreen({ Key? key }) : super(key: key);
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String _email;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class LoginScreen extends StatelessWidget {
                   height: 1,
                 ),
                 Text(
-                  "Login as a Rider",
+                  "Reset your password",
                   style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -77,23 +78,23 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(
                         height: 1,
                       ),
-                      TextField(
-                        controller: passwordTextEditingController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: "Password",
-                          labelStyle: TextStyle(
-                            fontSize: 14,
-                          ),
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 10,
-                          ),
-                        ),
-                        style: TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
+                      // TextField(
+                      //   controller: passwordTextEditingController,
+                      //   obscureText: true,
+                      //   decoration: InputDecoration(
+                      //     labelText: "Password",
+                      //     labelStyle: TextStyle(
+                      //       fontSize: 14,
+                      //     ),
+                      //     hintStyle: TextStyle(
+                      //       color: Colors.grey,
+                      //       fontSize: 10,
+                      //     ),
+                      //   ),
+                      //   style: TextStyle(
+                      //     fontSize: 14,
+                      //   ),
+                      // ),
                       SizedBox(
                         height: 10,
                       ),
@@ -104,7 +105,7 @@ class LoginScreen extends StatelessWidget {
                           height: 50,
                           child: Center(
                             child: Text(
-                              "Login",
+                              "Send Request",
                               style: TextStyle(
                                   fontSize: 20, fontFamily: "Poppins-Regular"),
                             ),
@@ -114,14 +115,16 @@ class LoginScreen extends StatelessWidget {
                           borderRadius: new BorderRadius.circular(24),
                         ),
                         onPressed: () {
-                          if (!emailTextEditingController.text.contains("@")) {
-                            displayToastMessage("Invalid Email", context);
-                          } else if (passwordTextEditingController
-                              .text.isEmpty) {
-                            displayToastMessage("Pass is empty", context);
-                          } else {
-                            loginAndAuthenticateUser(context);
-                          }
+                          // if (!emailTextEditingController.text.contains("@")) {
+                          //   displayToastMessage("Invalid Email", context);
+                          // } else if (passwordTextEditingController
+                          //     .text.isEmpty) {
+                          //   displayToastMessage("Pass is empty", context);
+                          // } else {
+                          //   loginAndAuthenticateUser(context);
+                          // }
+                          auth.sendPasswordResetEmail(email: _email);
+                          Navigator.of(context).pop();
                         },
                       ),
                     ],
@@ -132,58 +135,58 @@ class LoginScreen extends StatelessWidget {
                     Navigator.pushNamedAndRemoveUntil(
                         context, RegistrationScreen.idScreen, (route) => false);
                   },
-                  child: Text("Don't have an account? Click here to Register"),
+                  //child: Text("Don't have an account? Click here to Register"),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                    child: Text("Forgot password?"),
-                    onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ResetScreen())),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     TextButton(
+                //       child: Text("Forgot password?"),
+                //       onPressed: () {},
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ),
         ));
   }
 
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  void loginAndAuthenticateUser(BuildContext context) async {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return ProgressDialog(
-            message: "Authenticating.. Please wait",
-          );
-        });
-    final User firebaseUser = (await _firebaseAuth
-            .signInWithEmailAndPassword(
-                email: emailTextEditingController.text,
-                password: passwordTextEditingController.text)
-            .catchError((errMsg) {
-      Navigator.pop(context);
-      displayToastMessage("Error : " + errMsg.toString(), context);
-    }))
-        .user;
+  // final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  // void loginAndAuthenticateUser(BuildContext context) async {
+  //   showDialog(
+  //       context: context,
+  //       barrierDismissible: false,
+  //       builder: (BuildContext context) {
+  //         return ProgressDialog(
+  //           message: "Authenticating.. Please wait",
+  //         );
+  //       });
+  //   final User firebaseUser = (await _firebaseAuth
+  //           .signInWithEmailAndPassword(
+  //               email: emailTextEditingController.text,
+  //               password: passwordTextEditingController.text)
+  //           .catchError((errMsg) {
+  //     Navigator.pop(context);
+  //     displayToastMessage("Error : " + errMsg.toString(), context);
+  //   }))
+  //       .user;
 
-    if (firebaseUser != null) {
-      usersRef.child(firebaseUser.uid).once().then((DataSnapshot snap) {
-        if (snap.value != null) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, MainScreen.idScreen, (route) => false);
-          displayToastMessage("You are logged in.", context);
-        } else {
-          Navigator.pop(context);
-          _firebaseAuth.signOut();
-          displayToastMessage("No record exists. Create new account", context);
-        }
-      });
-    } else {
-      Navigator.pop(context);
-      displayToastMessage("Cant be signed in", context);
-    }
-  }
+  //   if (firebaseUser != null) {
+  //     usersRef.child(firebaseUser.uid).once().then((DataSnapshot snap) {
+  //       if (snap.value != null) {
+  //         Navigator.pushNamedAndRemoveUntil(
+  //             context, MainScreen.idScreen, (route) => false);
+  //         displayToastMessage("You are logged in.", context);
+  //       } else {
+  //         Navigator.pop(context);
+  //         _firebaseAuth.signOut();
+  //         displayToastMessage("No record exists. Create new account", context);
+  //       }
+  //     });
+  //   } else {
+  //     Navigator.pop(context);
+  //     displayToastMessage("Cant be signed in", context);
+  //   }
+  // }
 }
