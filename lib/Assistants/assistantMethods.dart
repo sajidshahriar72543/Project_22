@@ -19,7 +19,7 @@ class AssistantMethods {
       st1 = response["results"][0]["address_components"][0]["long_name"];
       st2 = response["results"][0]["address_components"][1]["long_name"];
       st3 = response["results"][0]["address_components"][5]["long_name"];
-      st4 = response["results"][0]["address_components"][6]["long_name"];
+      st4 = response["results"][0]["address_components"][6]["short_name"];
 
       // use long_name or short name as per your consideration
 

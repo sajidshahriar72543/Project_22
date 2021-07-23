@@ -9,6 +9,7 @@ import 'package:uber_clone/AllWidgets/progressDialog.dart';
 import 'package:uber_clone/main.dart';
 import 'package:uber_clone/AllScreens/reset.dart';
 
+// ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
   static const String idScreen = "login";
   TextEditingController emailTextEditingController = TextEditingController();
@@ -97,6 +98,7 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(
                         height: 10,
                       ),
+                      // ignore: deprecated_member_use
                       RaisedButton(
                         color: Colors.blue,
                         textColor: Colors.white,

@@ -1,5 +1,3 @@
-//import 'dart:html';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,6 +6,7 @@ import 'package:uber_clone/AllScreens/mainscreen.dart';
 import 'package:uber_clone/AllWidgets/progressDialog.dart';
 import 'package:uber_clone/main.dart';
 
+// ignore: must_be_immutable
 class RegistrationScreen extends StatelessWidget {
   static const String idScreen = "register";
 
@@ -15,7 +14,6 @@ class RegistrationScreen extends StatelessWidget {
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController phoneTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
-  //const LoginScreen({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -139,6 +137,7 @@ class RegistrationScreen extends StatelessWidget {
                       SizedBox(
                         height: 10,
                       ),
+                      // ignore: deprecated_member_use
                       RaisedButton(
                         color: Colors.blue,
                         textColor: Colors.white,

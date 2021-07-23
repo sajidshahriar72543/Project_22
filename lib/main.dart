@@ -5,9 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:uber_clone/AllScreens/loginScreen.dart';
 import 'package:uber_clone/AllScreens/mainscreen.dart';
 import 'package:uber_clone/AllScreens/registrationScreen.dart';
-import 'package:uber_clone/AllScreens/reset.dart';
 import 'package:uber_clone/DataHandler/appData.dart';
-//import 'package:uber_clone/AllScreens/registrationscreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,18 +17,18 @@ DatabaseReference usersRef =
     FirebaseDatabase.instance.reference().child("users");
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => AppData(),
-          child: MaterialApp(
+      child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           fontFamily: "Poppins-Regular",
           primarySwatch: Colors.blue,
         ),
-        initialRoute: ResetScreen.idScreen,
+        initialRoute: LoginScreen.idScreen,
         routes: {
           RegistrationScreen.idScreen: (context) => RegistrationScreen(),
           LoginScreen.idScreen: (context) => LoginScreen(),
