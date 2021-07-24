@@ -40,6 +40,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_native_splash: ^1.2.0
+
+flutter_native_splash:
+  color: '#bbdefb'
+  image: images/a.png
+  android: true
+  ios: false
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -68,6 +75,7 @@ flutter:
      - images/taxi-logo.png
      - images/bg.png
      - images/a.png
+     - images/b.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
