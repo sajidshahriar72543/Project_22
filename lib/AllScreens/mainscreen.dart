@@ -54,17 +54,17 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "Greetings",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontFamily: 'OpenSans-Regular',
-              fontWeight: FontWeight.bold,
-              fontSize: 17),
-        ),
-      ),
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   title: Text(
+      //     "Greetings",
+      //     textAlign: TextAlign.center,
+      //     style: TextStyle(
+      //         fontFamily: 'OpenSans-Regular',
+      //         fontWeight: FontWeight.bold,
+      //         fontSize: 17),
+      //   ),
+      // ),
       drawer: Container(
         color: Colors.white,
         width: 255.0,
@@ -150,7 +150,7 @@ class _MainScreenState extends State<MainScreen> {
       body: Stack(
         children: [
           GoogleMap(
-            padding: EdgeInsets.only(bottom: bottomPaddingOfMap),
+            padding: EdgeInsets.only(bottom: bottomPaddingOfMap, top: 35),
             mapType: MapType.normal,
             myLocationButtonEnabled: true,
             initialCameraPosition: _kGooglePlex,
@@ -162,7 +162,7 @@ class _MainScreenState extends State<MainScreen> {
               newgoogleMapController = controller;
 
               setState(() {
-                bottomPaddingOfMap = 350.0;
+                bottomPaddingOfMap = 300.0;
               });
 
               locatePosition();
@@ -194,14 +194,14 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                   ],
                 ),
-                // child: CircleAvatar(
-                //   backgroundColor: Colors.white,
-                //   child: Icon(
-                //     Icons.menu,
-                //     color: Colors.black,
-                //   ),
-                //   radius: 20.0,
-                // ),
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: Icon(
+                    Icons.menu,
+                    color: Colors.black,
+                  ),
+                  radius: 20.0,
+                ),
                 // why tf two buttons?
               ),
             ),
