@@ -17,8 +17,10 @@ class RegistrationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     return Scaffold(
         backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: false,
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
@@ -33,12 +35,13 @@ class RegistrationScreen extends StatelessWidget {
                 SizedBox(
                   height: 190,
                 ),
-                Image(
-                  image: AssetImage("images/a.png"),
-                  width: 100.0,
-                  height: 100.0,
-                  alignment: Alignment.center,
-                ),
+                if (!isKeyboard)
+                  Image(
+                    image: AssetImage("images/a.png"),
+                    width: 100.0,
+                    height: 100.0,
+                    alignment: Alignment.center,
+                  ),
                 SizedBox(
                   height: 1,
                 ),
