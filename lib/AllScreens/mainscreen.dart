@@ -1,9 +1,11 @@
 import 'dart:async';
 //import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:uber_clone/AllScreens/loginScreen.dart';
 import 'package:uber_clone/AllWidgets/Divider.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:uber_clone/Assistants/assistantMethods.dart';
@@ -140,6 +142,22 @@ class _MainScreenState extends State<MainScreen> {
                   "About",
                   style: TextStyle(
                     fontSize: 15.0,
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, LoginScreen.idScreen, (route) => false);
+                },
+                child: ListTile(
+                  leading: Icon(Icons.info),
+                  title: Text(
+                    "Logout",
+                    style: TextStyle(
+                      fontSize: 15.0,
+                    ),
                   ),
                 ),
               ),
