@@ -5,6 +5,7 @@ import 'package:uber_clone/AllScreens/loginScreen.dart';
 import 'package:uber_clone/AllScreens/mainscreen.dart';
 import 'package:uber_clone/AllWidgets/progressDialog.dart';
 import 'package:uber_clone/main.dart';
+import 'package:email_auth/email_auth.dart';
 
 // ignore: must_be_immutable
 class RegistrationScreen extends StatelessWidget {
@@ -14,6 +15,29 @@ class RegistrationScreen extends StatelessWidget {
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController phoneTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
+  TextEditingController otpTextEditingController = TextEditingController();
+
+  void sendOTP() async {
+    EmailAuth.sessionName = "Test Session";
+    var res =
+        await EmailAuth.sendOtp(receiverMail: emailTextEditingController.text);
+    if (res) {
+      Fluttertoast.showToast(msg: "OTP Sent");
+    } else {
+      Fluttertoast.showToast(msg: "Error sending OTP");
+    }
+  }
+
+  void verifyOTP() async {
+    var res = EmailAuth.validate(
+        receiverMail: emailTextEditingController.text,
+        userOTP: otpTextEditingController.text);
+    if (res) {
+      Fluttertoast.showToast(msg: "OTP Verified");
+    } else {
+      Fluttertoast.showToast(msg: "Invalid OTP");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +57,7 @@ class RegistrationScreen extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(
-                  height: 190,
+                  height: 90,
                 ),
                 if (!isKeyboard)
                   Image(
@@ -117,6 +141,26 @@ class RegistrationScreen extends StatelessWidget {
                           fontSize: 14,
                         ),
                       ),
+                      // SizedBox(
+                      //   height: 1,
+                      // ),
+                      // TextField(
+                      //   controller: otpTextEditingController,
+                      //   keyboardType: TextInputType.phone,
+                      //   decoration: InputDecoration(
+                      //     labelText: "OTP",
+                      //     labelStyle: TextStyle(
+                      //       fontSize: 14,
+                      //     ),
+                      //     hintStyle: TextStyle(
+                      //       color: Colors.grey,
+                      //       fontSize: 10,
+                      //     ),
+                      //   ),
+                      //   style: TextStyle(
+                      //     fontSize: 14,
+                      //   ),
+                      // ),
                       SizedBox(
                         height: 1,
                       ),
@@ -136,6 +180,50 @@ class RegistrationScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 14,
                         ),
+                      ),
+                      SizedBox(
+                        height: 1,
+                      ),
+                      TextField(
+                        controller: otpTextEditingController,
+                        keyboardType: TextInputType.phone,
+                        decoration: InputDecoration(
+                          labelText: "OTP",
+                          labelStyle: TextStyle(
+                            fontSize: 14,
+                          ),
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 10,
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      // ignore: deprecated_member_use
+                      RaisedButton(
+                        color: Colors.blue,
+                        textColor: Colors.white,
+                        child: Container(
+                          height: 50,
+                          child: Center(
+                            child: Text(
+                              "Send OTP",
+                              style: TextStyle(
+                                  fontSize: 20, fontFamily: "Poppins-Regular"),
+                            ),
+                          ),
+                        ),
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(24),
+                        ),
+                        onPressed: () {
+                          sendOTP();
+                        },
                       ),
                       SizedBox(
                         height: 10,
@@ -170,6 +258,11 @@ class RegistrationScreen extends StatelessWidget {
                               6) {
                             displayToastMessage(
                                 "Pass must be atleast 6 characters", context);
+                          } else if (EmailAuth.validate(
+                                  receiverMail: emailTextEditingController.text,
+                                  userOTP: otpTextEditingController.text) ==
+                              false) {
+                            displayToastMessage("Wrong OTP", context);
                           } else {
                             registerNewUser(context);
                           }
@@ -190,7 +283,6 @@ class RegistrationScreen extends StatelessWidget {
           ),
         ));
   }
-
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   void registerNewUser(BuildContext context) async {
     showDialog(
@@ -211,8 +303,8 @@ class RegistrationScreen extends StatelessWidget {
       displayToastMessage("Error : " + errMsg.toString(), context);
     }))
         .user;
-
     if (firebaseUser != null) {
+      //verifyOTP();
       Map userDataMap = {
         "name": nameTextEditingController.text.trim(),
         "email": emailTextEditingController.text.trim(),
