@@ -18,24 +18,13 @@ class RegistrationScreen extends StatelessWidget {
   TextEditingController otpTextEditingController = TextEditingController();
 
   void sendOTP() async {
-    EmailAuth.sessionName = "Test Session";
+    EmailAuth.sessionName = "the App";
     var res =
         await EmailAuth.sendOtp(receiverMail: emailTextEditingController.text);
     if (res) {
       Fluttertoast.showToast(msg: "OTP Sent");
     } else {
       Fluttertoast.showToast(msg: "Error sending OTP");
-    }
-  }
-
-  void verifyOTP() async {
-    var res = EmailAuth.validate(
-        receiverMail: emailTextEditingController.text,
-        userOTP: otpTextEditingController.text);
-    if (res) {
-      Fluttertoast.showToast(msg: "OTP Verified");
-    } else {
-      Fluttertoast.showToast(msg: "Invalid OTP");
     }
   }
 
@@ -141,26 +130,6 @@ class RegistrationScreen extends StatelessWidget {
                           fontSize: 14,
                         ),
                       ),
-                      // SizedBox(
-                      //   height: 1,
-                      // ),
-                      // TextField(
-                      //   controller: otpTextEditingController,
-                      //   keyboardType: TextInputType.phone,
-                      //   decoration: InputDecoration(
-                      //     labelText: "OTP",
-                      //     labelStyle: TextStyle(
-                      //       fontSize: 14,
-                      //     ),
-                      //     hintStyle: TextStyle(
-                      //       color: Colors.grey,
-                      //       fontSize: 10,
-                      //     ),
-                      //   ),
-                      //   style: TextStyle(
-                      //     fontSize: 14,
-                      //   ),
-                      // ),
                       SizedBox(
                         height: 1,
                       ),
@@ -283,6 +252,7 @@ class RegistrationScreen extends StatelessWidget {
           ),
         ));
   }
+
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   void registerNewUser(BuildContext context) async {
     showDialog(
@@ -304,7 +274,6 @@ class RegistrationScreen extends StatelessWidget {
     }))
         .user;
     if (firebaseUser != null) {
-      //verifyOTP();
       Map userDataMap = {
         "name": nameTextEditingController.text.trim(),
         "email": emailTextEditingController.text.trim(),
