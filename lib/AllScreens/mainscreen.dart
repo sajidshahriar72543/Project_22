@@ -52,9 +52,16 @@ class _MainScreenState extends State<MainScreen> {
     zoom: 14.4746,
   );
 
+  MapType _currentMapType = MapType.normal;
+  void _toggleMapType(){    
+   setState(() {
+       _currentMapType = (_currentMapType == MapType.normal) ? MapType.satellite : MapType.normal;  
+   });
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       key: scaffoldKey,
       // appBar: AppBar(
       //   centerTitle: true,
@@ -165,11 +172,28 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
+      floatingActionButton: 
+      Padding(
+        padding: const EdgeInsets.only(bottom: 2),
+        child: SizedBox(height: 40, width: 40,
+                child: FloatingActionButton(shape: CircleBorder(
+            //borderRadius: BorderRadius.zero
+     ),   
+     backgroundColor: Colors.white,
+     foregroundColor: Colors.black,  
+                              child: Icon(Icons.satellite),
+                              onPressed: _toggleMapType,
+                              heroTag: null,
+                              
+                            ),
+        ),
+      ),
       body: Stack(
         children: [
           GoogleMap(
             padding: EdgeInsets.only(bottom: bottomPaddingOfMap, top: 35),
-            mapType: MapType.normal,
+            // mapType: MapType.normal,
+            mapType: _currentMapType,
             myLocationButtonEnabled: true,
             initialCameraPosition: _kGooglePlex,
             myLocationEnabled: true,
