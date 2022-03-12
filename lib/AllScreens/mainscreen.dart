@@ -10,6 +10,7 @@ import 'package:uber_clone/AllWidgets/Divider.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:uber_clone/Assistants/assistantMethods.dart';
 import 'package:uber_clone/DataHandler/appData.dart';
+import 'package:uber_clone/AllScreens/searchScreen.dart';
 
 class MainScreen extends StatefulWidget {
   static const String idScreen = "mainScreen";
@@ -286,32 +287,37 @@ class _MainScreenState extends State<MainScreen> {
                           fontSize: 20.0, fontFamily: "Poppins-Regular"),
                     ),
                     SizedBox(height: 20.0),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black54,
-                            blurRadius: 6.0,
-                            spreadRadius: 0.5,
-                            offset: Offset(0.7, 0.7),
-                          ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.search,
-                              color: Colors.blueAccent,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black54,
+                              blurRadius: 6.0,
+                              spreadRadius: 0.5,
+                              offset: Offset(0.7, 0.7),
                             ),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            Text("Search Drop off location"),
                           ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.search,
+                                color: Colors.blueAccent,
+                              ),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Text("Search Drop off location"),
+                            ],
+                          ),
                         ),
                       ),
                     ),

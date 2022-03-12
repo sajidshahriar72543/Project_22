@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          fontFamily: "Poppins-Regular",
+          // fontFamily: "Poppins-Regular",
           primarySwatch: Colors.blue,
         ),
         initialRoute: FirebaseAuth.instance.currentUser == null
