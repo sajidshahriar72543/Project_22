@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uber_clone/Assistants/requestAssistant.dart';
 import 'package:uber_clone/DataHandler/appData.dart';
+import 'package:uber_clone/configMaps.dart';
 
 class SearchScreen extends StatefulWidget {
-
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
@@ -13,7 +14,8 @@ class _SearchScreenState extends State<SearchScreen> {
   TextEditingController dropOffTextEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    String placeAddress = Provider.of<AppData>(context).pickUpLocation.placeName ?? "";
+    String placeAddress =
+        Provider.of<AppData>(context).pickUpLocation.placeName ?? "";
     pickUpTextEditingController.text = placeAddress;
     return Scaffold(
       body: Column(
@@ -39,24 +41,23 @@ class _SearchScreenState extends State<SearchScreen> {
                   Stack(
                     children: [
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Navigator.pop(context);
                         },
-                        child: Icon(
-                          Icons.arrow_back
-                          ),
+                        child: Icon(Icons.arrow_back),
                       ),
                       Center(
-                        child: Text("Set Drop off", style: TextStyle(fontSize: 18.0, fontFamily: "Poppins-Regular")),
+                        child: Text("Set Drop off",
+                            style: TextStyle(
+                                fontSize: 18.0, fontFamily: "Poppins-Regular")),
                       ),
                     ],
                   ),
-
                   SizedBox(height: 16.0),
-                  
                   Row(
                     children: [
-                      Image.asset("images/pickicon.png", height: 16.0, width: 16.0),
+                      Image.asset("images/pickicon.png",
+                          height: 16.0, width: 16.0),
                       SizedBox(width: 18.0),
                       Expanded(
                         child: Container(
@@ -72,15 +73,21 @@ class _SearchScreenState extends State<SearchScreen> {
                                 fillColor: Colors.grey[400],
                                 filled: true,
                                 isDense: true,
-                                contentPadding: EdgeInsets.only(left: 10.0, right: 10.0, top: 8.0, bottom: 8.0),
+                                contentPadding: EdgeInsets.only(
+                                    left: 10.0,
+                                    right: 10.0,
+                                    top: 8.0,
+                                    bottom: 8.0),
                                 border: InputBorder.none,
                                 hintText: "Pickup Location",
-                                hintStyle: TextStyle(fontSize: 14.0, fontFamily: "Poppins-Regular"),
+                                hintStyle: TextStyle(
+                                    fontSize: 14.0,
+                                    fontFamily: "Poppins-Regular"),
                               ),
-                            ),
                             ),
                           ),
                         ),
+                      ),
                     ],
                   ),
                   SizedBox(height: 10.0),
@@ -98,6 +105,9 @@ class _SearchScreenState extends State<SearchScreen> {
                           child: Padding(
                             padding: EdgeInsets.all(3.0),
                             child: TextField(
+                              onChanged: (val) {
+                                findPlace(val);
+                              },
                               controller: dropOffTextEditingController,
                               decoration: InputDecoration(
                                 fillColor: Colors.grey[400],
@@ -127,5 +137,17 @@ class _SearchScreenState extends State<SearchScreen> {
         ],
       ),
     );
+  }
+
+  void findPlace(String placeName) async {
+    if (placeName.length > 1) {
+      String autoCompleteUrl =
+          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$placeName&key=$mapkey&sessiontoken=1234567890&components=country:BD";
+      var res = await RequestAssistant.getRequest(autoCompleteUrl);
+      if (res == "failed") {
+        return;
+      }
+      print(res);
+    }
   }
 }
