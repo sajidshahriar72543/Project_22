@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uber_clone/AllWidgets/progressDialog.dart';
 import 'package:uber_clone/Assistants/requestAssistant.dart';
 import 'package:uber_clone/DataHandler/appData.dart';
+import 'package:uber_clone/Models/address.dart';
 import 'package:uber_clone/configMaps.dart';
 import 'package:uber_clone/Models/placePredictions.dart';
 
@@ -193,38 +195,72 @@ class PredictionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
-      children: [
-        SizedBox(width: 10.0),
-        Row(
-          children: [
-            Icon(Icons.add_location),
-            SizedBox(width: 14.0),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(placePredictions.main_text,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontSize: 16.0,
-                          fontFamily: "Poppins-Regular",
-                          color: Colors.black)),
-                  SizedBox(height: 3.0),
-                  // Text(placePredictions.secondary_text,
-                  //     overflow: TextOverflow.ellipsis,
-                  //     style: TextStyle(
-                  //         fontSize: 16.0,
-                  //         fontFamily: "Poppins-Regular",
-                  //         color: Colors.black)),
-                ],
-              ),
-            )
-          ],
-        ),
-        SizedBox(width: 10.0),
-      ],
-    ));
+    return FlatButton(
+      padding: EdgeInsets.all(0.0),
+      onPressed: () {
+        getPlaceAddressDetails(placePredictions.place_id, context);
+      },
+      child: Container(
+          child: Column(
+        children: [
+          SizedBox(width: 10.0),
+          Row(
+            children: [
+              Icon(Icons.add_location),
+              SizedBox(width: 14.0),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(placePredictions.main_text,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            fontFamily: "Poppins-Regular",
+                            color: Colors.black)),
+                    SizedBox(height: 3.0),
+                    // Text(placePredictions.secondary_text,
+                    //     overflow: TextOverflow.ellipsis,
+                    //     style: TextStyle(
+                    //         fontSize: 16.0,
+                    //         fontFamily: "Poppins-Regular",
+                    //         color: Colors.black)),
+                  ],
+                ),
+              )
+            ],
+          ),
+          SizedBox(width: 10.0),
+        ],
+      )),
+    );
+  }
+
+  void getPlaceAddressDetails(String placeId, context) async {
+    showDialog(context: context, builder: (BuildContext context) =>
+      ProgressDialog(message: "Setting DropOff, Please Wait",)
+    );
+    
+    String placeDetailsUrl =
+        "https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$mapkey";
+    var res = await RequestAssistant.getRequest(placeDetailsUrl);
+
+    Navigator.pop(context);
+    
+    if (res == "failed") {
+      return;
+    }
+    if (res["status"] == "OK") {
+      Address address = Address();
+      address.placeName = res["result"]["name"];
+      address.placeId = placeId;
+      address.latitude = res["result"]["geometry"]["location"]["lat"];
+      address.logitude = res["result"]["geometry"]["location"]["lng"];
+
+      Provider.of<AppData>(context, listen: false)
+          .updatepickUpLocationAddress(address);
+      print("This is Drop off Location :: ");
+      print(address.placeName);
+    }
   }
 }
