@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:uber_clone/Assistants/requestAssistant.dart';
 import 'package:uber_clone/DataHandler/appData.dart';
 import 'package:uber_clone/configMaps.dart';
+import 'package:uber_clone/Models/placePredictions.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -12,6 +13,8 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController pickUpTextEditingController = TextEditingController();
   TextEditingController dropOffTextEditingController = TextEditingController();
+  List<PlacePredictions> placePredictionsList = [];
+
   @override
   Widget build(BuildContext context) {
     String placeAddress =
@@ -23,10 +26,10 @@ class _SearchScreenState extends State<SearchScreen> {
           Container(
             height: 215.0,
             decoration: BoxDecoration(
-              color: Colors.black,
+              color: Colors.blue,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black,
+                  color: Colors.blue,
                   blurRadius: 6.0,
                   spreadRadius: 0.5,
                   offset: Offset(0.7, 0.7),
@@ -37,7 +40,7 @@ class _SearchScreenState extends State<SearchScreen> {
               padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 20.0),
               child: Column(
                 children: [
-                  SizedBox(height: 5.0),
+                  SizedBox(height: 35.0),
                   Stack(
                     children: [
                       GestureDetector(
@@ -49,7 +52,9 @@ class _SearchScreenState extends State<SearchScreen> {
                       Center(
                         child: Text("Set Drop off",
                             style: TextStyle(
-                                fontSize: 18.0, fontFamily: "Poppins-Regular")),
+                                fontSize: 18.0,
+                                fontFamily: "Poppins-Regular",
+                                color: Colors.white)),
                       ),
                     ],
                   ),
@@ -62,7 +67,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.grey[400],
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: Padding(
@@ -70,7 +75,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             child: TextField(
                               controller: pickUpTextEditingController,
                               decoration: InputDecoration(
-                                fillColor: Colors.grey[400],
+                                fillColor: Colors.white,
                                 filled: true,
                                 isDense: true,
                                 contentPadding: EdgeInsets.only(
@@ -99,7 +104,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.grey[400],
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: Padding(
@@ -110,7 +115,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               },
                               controller: dropOffTextEditingController,
                               decoration: InputDecoration(
-                                fillColor: Colors.grey[400],
+                                fillColor: Colors.white,
                                 filled: true,
                                 isDense: true,
                                 contentPadding: EdgeInsets.only(
@@ -133,7 +138,25 @@ class _SearchScreenState extends State<SearchScreen> {
                 ],
               ),
             ),
-          )
+          ),
+          // tile for display predictions
+          (placePredictionsList.length > 0)
+              ? Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  child: ListView.separated(
+                    padding: EdgeInsets.all(0.0),
+                    itemBuilder: (context, index) {
+                      return PredictionTile(
+                          placePredictions: placePredictionsList[index]);
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        Divider(),
+                    itemCount: placePredictionsList.length,
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                  ))
+              : Container(),
         ],
       ),
     );
@@ -142,12 +165,66 @@ class _SearchScreenState extends State<SearchScreen> {
   void findPlace(String placeName) async {
     if (placeName.length > 1) {
       String autoCompleteUrl =
-          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$placeName&key=$mapkey&sessiontoken=1234567890&components=country:BD";
+          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$placeName&key=$mapkey&components=country:BD";
       var res = await RequestAssistant.getRequest(autoCompleteUrl);
       if (res == "failed") {
         return;
       }
-      print(res);
+      // print(res);
+
+      if (res["status"] == "OK") {
+        var predictions = res["predictions"];
+        var placesList = (predictions as List)
+            .map((e) => PlacePredictions.fromJson(e))
+            .toList();
+        setState(() {
+          placePredictionsList = placesList;
+        });
+      }
     }
+  }
+}
+
+class PredictionTile extends StatelessWidget {
+  final PlacePredictions placePredictions;
+  PredictionTile({Key key, this.placePredictions, this.title = ''})
+      : super(key: key);
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: Column(
+      children: [
+        SizedBox(width: 10.0),
+        Row(
+          children: [
+            Icon(Icons.add_location),
+            SizedBox(width: 14.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(placePredictions.main_text,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontSize: 16.0,
+                          fontFamily: "Poppins-Regular",
+                          color: Colors.black)),
+                  SizedBox(height: 3.0),
+                  // Text(placePredictions.secondary_text,
+                  //     overflow: TextOverflow.ellipsis,
+                  //     style: TextStyle(
+                  //         fontSize: 16.0,
+                  //         fontFamily: "Poppins-Regular",
+                  //         color: Colors.black)),
+                ],
+              ),
+            )
+          ],
+        ),
+        SizedBox(width: 10.0),
+      ],
+    ));
   }
 }
