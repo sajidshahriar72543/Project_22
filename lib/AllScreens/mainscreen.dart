@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 //import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:uber_clone/AllScreens/loginScreen.dart';
 import 'package:uber_clone/AllWidgets/Divider.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:uber_clone/AllWidgets/progressDialog.dart';
 import 'package:uber_clone/Assistants/assistantMethods.dart';
 import 'package:uber_clone/DataHandler/appData.dart';
 import 'package:uber_clone/AllScreens/searchScreen.dart';
@@ -54,11 +56,14 @@ class _MainScreenState extends State<MainScreen> {
   );
 
   MapType _currentMapType = MapType.normal;
-  void _toggleMapType(){    
-   setState(() {
-       _currentMapType = (_currentMapType == MapType.normal) ? MapType.satellite : MapType.normal;  
-   });
-}
+  void _toggleMapType() {
+    setState(() {
+      _currentMapType = (_currentMapType == MapType.normal)
+          ? MapType.satellite
+          : MapType.normal;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -173,20 +178,21 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
-      floatingActionButton: 
-      Padding(
+      floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 2),
-        child: SizedBox(height: 40, width: 40,
-                child: FloatingActionButton(shape: CircleBorder(
-            //borderRadius: BorderRadius.zero
-     ),   
-     backgroundColor: Colors.white,
-     foregroundColor: Colors.black,  
-                              child: Icon(Icons.satellite),
-                              onPressed: _toggleMapType,
-                              heroTag: null,
-                              
-                            ),
+        child: SizedBox(
+          height: 40,
+          width: 40,
+          child: FloatingActionButton(
+            shape: CircleBorder(
+                //borderRadius: BorderRadius.zero
+                ),
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            child: Icon(Icons.satellite),
+            onPressed: _toggleMapType,
+            heroTag: null,
+          ),
         ),
       ),
       body: Stack(
@@ -288,8 +294,14 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     SizedBox(height: 20.0),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+                      onTap: () async {
+                        var res = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SearchScreen()));
+                        if (res == "obtainDirection") {
+                          await getPlaceDirection();
+                        }
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -384,5 +396,27 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> getPlaceDirection() async {
+    var initialPos =
+        Provider.of<AppData>(context, listen: false).pickUpLocation;
+    var finalPos = Provider.of<AppData>(context, listen: false).dropOffLocation;
+
+    var pickUpLatLng = LatLng(initialPos.latitude, initialPos.logitude);
+    var dropOffLatLng = LatLng(finalPos.latitude, finalPos.logitude);
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => ProgressDialog(
+              message: "Please Wait..",
+            ));
+    var details = await AssistantMethods.obtainPlaceDirectionDetails(
+        pickUpLatLng, dropOffLatLng);
+
+    Navigator.pop(context);
+
+    print("This is Encoded point :: ");
+    print(details.encodedPoints);
   }
 }

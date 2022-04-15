@@ -261,6 +261,8 @@ class PredictionTile extends StatelessWidget {
           .updatepickUpLocationAddress(address);
       print("This is Drop off Location :: ");
       print(address.placeName);
+
+      Navigator.pop(context, "obtainDirection");
     }
   }
 }
