@@ -1,4 +1,4 @@
-# Ride Sharing app (Origin : UBER)
+# Ride Sharing app
 
 Yet another Flutter project to create an app similar to UBER.
 Here basic material ui is being used and for storing data Firebase is implemented.
@@ -9,7 +9,7 @@ Here basic material ui is being used and for storing data Firebase is implemente
 ***RUET***
 
 ### Features
-- Credentials
+- Credentials managing
     - Powered by Firebase Auth
     - Login/out panel
     - New user registration
@@ -18,3 +18,8 @@ Here basic material ui is being used and for storing data Firebase is implemente
 - Design
     - Simple material design and color swatches are used
     - Main swatch followed 0xFF90CAF9
+    - Flutter fluid animations implemented
+- Map API
+    - Tried integrating Google Maps api to get map working inside the app
+    - Used Places api to get latitude and longitude of the user
+    - Used directions api to search the destination address
