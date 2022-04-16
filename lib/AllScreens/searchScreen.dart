@@ -219,12 +219,12 @@ class PredictionTile extends StatelessWidget {
                             fontFamily: "Poppins-Regular",
                             color: Colors.black)),
                     SizedBox(height: 3.0),
-                    // Text(placePredictions.secondary_text,
-                    //     overflow: TextOverflow.ellipsis,
-                    //     style: TextStyle(
-                    //         fontSize: 16.0,
-                    //         fontFamily: "Poppins-Regular",
-                    //         color: Colors.black)),
+                    Text(placePredictions.secondary_text,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            fontFamily: "Poppins-Regular",
+                            color: Colors.black)),
                   ],
                 ),
               )
@@ -237,17 +237,20 @@ class PredictionTile extends StatelessWidget {
   }
 
   void getPlaceAddressDetails(String placeId, context) async {
-    showDialog(context: context, builder: (BuildContext context) =>
-      ProgressDialog(message: "Setting DropOff, Please Wait",)
-    );
-    
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => ProgressDialog(
+              message: "Setting DropOff, Please Wait",
+            ));
+
     String placeDetailsUrl =
         "https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$mapkey";
     var res = await RequestAssistant.getRequest(placeDetailsUrl);
 
     Navigator.pop(context);
-    
+
     if (res == "failed") {
+      print("failed");
       return;
     }
     if (res["status"] == "OK") {

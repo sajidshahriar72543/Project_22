@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:ffi';
 //import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:uber_clone/AllScreens/loginScreen.dart';
@@ -27,6 +27,9 @@ class _MainScreenState extends State<MainScreen> {
   GoogleMapController newgoogleMapController;
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  List<LatLng> pLineCoordinates = [];
+  Set<Polyline> polyLineSet = {};
 
   //LocationPermission permission = await Geolocator.requestPermission();
   Position currentPosition;
@@ -96,7 +99,7 @@ class _MainScreenState extends State<MainScreen> {
                   child: Row(
                     children: [
                       Image.asset(
-                        "images/user_icon.png",
+                        "images/a.png",
                         height: 65.0,
                         width: 65.0,
                       ),
@@ -107,7 +110,7 @@ class _MainScreenState extends State<MainScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Profile Name",
+                            "Sajid",
                             style: TextStyle(
                               fontSize: 16.0,
                               fontFamily: "Poppins-Regular",
@@ -116,7 +119,7 @@ class _MainScreenState extends State<MainScreen> {
                           SizedBox(
                             height: 6.0,
                           ),
-                          Text("Visit Profile"),
+                          Text("Standard User"),
                         ],
                       ),
                     ],
@@ -131,33 +134,34 @@ class _MainScreenState extends State<MainScreen> {
               ),
 
               // drawer body controllers
-              ListTile(
-                leading: Icon(Icons.history),
-                title: Text(
-                  "History",
-                  style: TextStyle(
-                    fontSize: 15.0,
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.person),
-                title: Text(
-                  "Visit Profile",
-                  style: TextStyle(
-                    fontSize: 15.0,
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.info),
-                title: Text(
-                  "About",
-                  style: TextStyle(
-                    fontSize: 15.0,
-                  ),
-                ),
-              ),
+              // ListTile(
+              //   leading: Icon(Icons.history),
+              //   title: Text(
+              //     "History",
+              //     style: TextStyle(
+              //       fontSize: 15.0,
+              //     ),
+              //   ),
+              // ),
+              // ListTile(
+              //   leading: Icon(Icons.person),
+              //   title: Text(
+              //     "Visit Profile",
+              //     style: TextStyle(
+              //       fontSize: 15.0,
+              //     ),
+              //   ),
+              // ),
+              // ListTile(
+              //   onTap: () => Navigator.pushNamed(context, AboutScreen.idScreen),
+              //   leading: Icon(Icons.info),
+              //   title: Text(
+              //     "About",
+              //     style: TextStyle(
+              //       fontSize: 15.0,
+              //     ),
+              //   ),
+              // ),
               GestureDetector(
                 onTap: () {
                   FirebaseAuth.instance.signOut();
@@ -206,6 +210,7 @@ class _MainScreenState extends State<MainScreen> {
             myLocationEnabled: true,
             zoomGesturesEnabled: true,
             zoomControlsEnabled: true,
+            polylines: polyLineSet,
             onMapCreated: (GoogleMapController controller) {
               _controllerGoogleMap.complete(controller);
               newgoogleMapController = controller;
@@ -418,5 +423,33 @@ class _MainScreenState extends State<MainScreen> {
 
     print("This is Encoded point :: ");
     print(details.encodedPoints);
+
+    PolylinePoints polylinePoints = PolylinePoints();
+    List<PointLatLng> decodedPolyLinePointsResult =
+        polylinePoints.decodePolyline(details.encodedPoints);
+
+    pLineCoordinates.clear();
+
+    if (decodedPolyLinePointsResult.isNotEmpty) {
+      decodedPolyLinePointsResult.forEach((PointLatLng pointLatLng) {
+        LatLng(pointLatLng.latitude, pointLatLng.longitude);
+      });
+    }
+
+    polyLineSet.clear();
+
+    setState(() {
+      Polyline polyline = Polyline(
+          polylineId: PolylineId("PolylineID"),
+          color: Colors.red,
+          points: pLineCoordinates,
+          width: 4,
+          jointType: JointType.round,
+          startCap: Cap.roundCap,
+          endCap: Cap.roundCap,
+          geodesic: true);
+
+      polyLineSet.add(polyline);
+    });
   }
 }
