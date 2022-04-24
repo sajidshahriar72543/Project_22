@@ -3,8 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uber_clone/AllScreens/About.dart';
+import 'package:uber_clone/AllScreens/History.dart';
 import 'package:uber_clone/AllScreens/loginScreen.dart';
 import 'package:uber_clone/AllScreens/mainscreen.dart';
+import 'package:uber_clone/AllScreens/profile.dart';
 import 'package:uber_clone/AllScreens/registrationScreen.dart';
 import 'package:uber_clone/DataHandler/appData.dart';
 
@@ -36,6 +39,9 @@ class MyApp extends StatelessWidget {
           RegistrationScreen.idScreen: (context) => RegistrationScreen(),
           LoginScreen.idScreen: (context) => LoginScreen(),
           MainScreen.idScreen: (context) => MainScreen(),
+          About.idScreen: (context) => About(),
+          History.idScreen: (context) => History(),
+          Profile.idScreen: (context) => Profile(),
         },
         debugShowCheckedModeBanner: false,
       ),
