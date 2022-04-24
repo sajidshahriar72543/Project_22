@@ -40,6 +40,7 @@ class AssistantMethods {
     return placeAddress;
   }
 
+  // ignore: missing_return
   static Future<DirectionDetails> obtainPlaceDirectionDetails(
       LatLng initialPosition, LatLng finalPosition) async {
     String directionUrl =

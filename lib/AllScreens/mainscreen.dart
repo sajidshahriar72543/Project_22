@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:uber_clone/AllScreens/About.dart';
+import 'package:uber_clone/AllScreens/History.dart';
 import 'package:uber_clone/AllScreens/loginScreen.dart';
+import 'package:uber_clone/AllScreens/profile.dart';
 import 'package:uber_clone/AllWidgets/Divider.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:uber_clone/AllWidgets/progressDialog.dart';
@@ -134,34 +137,36 @@ class _MainScreenState extends State<MainScreen> {
               ),
 
               // drawer body controllers
-              // ListTile(
-              //   leading: Icon(Icons.history),
-              //   title: Text(
-              //     "History",
-              //     style: TextStyle(
-              //       fontSize: 15.0,
-              //     ),
-              //   ),
-              // ),
-              // ListTile(
-              //   leading: Icon(Icons.person),
-              //   title: Text(
-              //     "Visit Profile",
-              //     style: TextStyle(
-              //       fontSize: 15.0,
-              //     ),
-              //   ),
-              // ),
-              // ListTile(
-              //   onTap: () => Navigator.pushNamed(context, AboutScreen.idScreen),
-              //   leading: Icon(Icons.info),
-              //   title: Text(
-              //     "About",
-              //     style: TextStyle(
-              //       fontSize: 15.0,
-              //     ),
-              //   ),
-              // ),
+              ListTile(
+                onTap: () => Navigator.pushNamed(context, History.idScreen),
+                leading: Icon(Icons.history),
+                title: Text(
+                  "History",
+                  style: TextStyle(
+                    fontSize: 15.0,
+                  ),
+                ),
+              ),
+              ListTile(
+                onTap: () => Navigator.pushNamed(context, Profile.idScreen),
+                leading: Icon(Icons.person),
+                title: Text(
+                  "Visit Profile",
+                  style: TextStyle(
+                    fontSize: 15.0,
+                  ),
+                ),
+              ),
+              ListTile(
+                onTap: () => Navigator.pushNamed(context, About.idScreen),
+                leading: Icon(Icons.info),
+                title: Text(
+                  "About",
+                  style: TextStyle(
+                    fontSize: 15.0,
+                  ),
+                ),
+              ),
               GestureDetector(
                 onTap: () {
                   FirebaseAuth.instance.signOut();

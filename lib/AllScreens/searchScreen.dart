@@ -195,6 +195,7 @@ class PredictionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
     return FlatButton(
       padding: EdgeInsets.all(0.0),
       onPressed: () {
